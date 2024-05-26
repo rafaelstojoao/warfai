@@ -1,7 +1,5 @@
 package org.example;
 
-
-import java.io.Console;
 import java.sql.SQLException;
 
 public class Main {
@@ -9,7 +7,6 @@ public class Main {
     public static void main(String[] args) throws SQLException{
         db.connect();
         create_tables();
-  //      PersonagemFactory CriaLevel = new PersonagemFactory(3);
         IntUsuario interacao = new IntUsuario();
         Equipe fai = interacao.MenuEquipe();
         System.out.println("Equipe 1: \n");

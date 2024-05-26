@@ -11,7 +11,7 @@ public class Database {
 
     public void connect() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Warfai", "root", "");
+            this.connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/Warfai", "fernando", "adamantina");
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
