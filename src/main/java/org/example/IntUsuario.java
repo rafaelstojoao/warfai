@@ -21,7 +21,7 @@ public class IntUsuario {
                 Scanner ler = new Scanner(System.in);
                 PersonagemFactory player_factory = new PersonagemFactory(1);
 
-                ArrayList<Personagem> players = new ArrayList<>();
+                ArrayList<Player> players = new ArrayList<>();
                 for(int i = 0; i < 3; i++) {
                     System.out.println("Digite seu nickname: ");
                     String nome = ler.next();

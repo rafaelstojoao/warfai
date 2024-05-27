@@ -1,8 +1,6 @@
 package org.example;
 
 
-import java.util.*;
-
 /**
  * 
  */
@@ -14,21 +12,21 @@ public class PersonagemFactory {
         this.level = level;
     }
 
-    public Personagem makeGuerreiro(String name) {
+    public Player makeGuerreiro(String name) {
         return new Guerreiro(name, level, 100, 3, 7, 0);
     }
 
     /**
      * 
      */
-    public Personagem makeMago(String name) {
+    public Player makeMago(String name) {
         return new Mago(name, level, 100, 9, 1, 2);
     }
 
     /**
      * 
      */
-    public Personagem makeArqueiro(String name) {
+    public Player makeArqueiro(String name) {
         return new Arqueiro(name, level, 100, 7, 3, 1);
     }
 }

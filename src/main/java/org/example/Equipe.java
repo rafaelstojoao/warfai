@@ -13,7 +13,7 @@ public class Equipe {
     /**
      * 
      */
-    private ArrayList<Personagem> party = new ArrayList<>();
+    private ArrayList<Player> party = new ArrayList<>();
     private boolean bot = false; 
     private int id = 0;
     /**
@@ -21,21 +21,21 @@ public class Equipe {
      */
     //private boolean ativa = true;
 
-    public Equipe(ArrayList<Personagem> p, String nome) throws SQLException {
+    public Equipe(ArrayList<Player> p, String nome) throws SQLException {
         for(int i = 0; i < p.size(); ++i) {
             party.add(p.get(i));
         }
     }
 
-    public Equipe(ArrayList<Personagem> p, String nome, int cod_usuario_humano) throws SQLException {
-        Main.db.write("Insert into equipe(nome, cod_usuario_humano) values ('"+ nome + "',"+ cod_usuario_humano +");");
-        ResultSet res = Main.db.consulta("Select * from equipe order by cod_equipe desc limit 1;");
+    public Equipe(ArrayList<Player> p, String nome, int cod_usuario_humano) throws SQLException {
+        Main.db.write("Insert into equipe(nome, id_usuario_humano) values ('"+ nome + "',"+ cod_usuario_humano +");");
+        ResultSet res = Main.db.consulta("Select * from equipe order by id desc limit 1;");
         res.next();
         this.id = Integer.parseInt(res.getString("cod_equipe"));
         
         for(int i = 0; i < p.size(); ++i) {
-            System.out.println("Insert into player(nickname, cod_equipe, cod_classe) values ('" + p.get(i).Nome + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
-            Main.db.write("Insert into player(nickname, cod_equipe, cod_classe) values ('" + p.get(i).Nome + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
+            System.out.println("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
+            Main.db.write("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
             party.add(p.get(i));
         }
     }
@@ -51,14 +51,14 @@ public class Equipe {
     /**
      * @param p
      */
-    public void add_player(Personagem p) {
+    public void add_player(Player p) {
         party.add(p);
     }
 
     /**
      * @param p
      */
-    public void remove_player(Personagem p) {
+    public void remove_player(Player p) {
         party.remove(p);
     }
     
@@ -80,45 +80,42 @@ public class Equipe {
             active1 = new Equipe(e);     
         }
 
-        Main.db.write("INSERT INTO batalhas(cod_equipe1, cod_equipe2) VALUES(" + this.id + "," + e.id + ");");
-        ResultSet res = Main.db.consulta("Select * from batalhas order by cod_batalha desc limit 1;");
+        Main.db.write("INSERT INTO batalhas(id_equipe1, id_equipe2) VALUES(" + this.id + "," + e.id + ");");
+        ResultSet res = Main.db.consulta("Select * from batalhas order by id desc limit 1;");
         res.next();
-        int cod = Integer.parseInt(res.getString("cod_batalha"));
+        int cod = Integer.parseInt(res.getString("id"));
         while(!active1.party.isEmpty() && !active2.party.isEmpty()) {
             int player_selected = rng.nextInt(0, active1.party.size());
-            Personagem p = active1.party.get(player_selected);
-            p.ataque(active2.party);
-            active1.party.removeIf(v -> v.Vida <= 0);
+            Player p = active1.party.get(player_selected);
+            p.attack(active2.party, 0);
+            active1.party.removeIf(v -> v.health <= 0);
             
             if(active1.party.isEmpty())
             {
-                Main.db.write("INSERT INTO turno(cod_batalha) VALUES(" + cod + ");");
+                Main.db.write("INSERT INTO turno(id_batalha) VALUES(" + cod + ");");
                 break;
             }
             
             player_selected = rng.nextInt(0, active2.party.size());
             p = active2.party.get(player_selected);
-            p.ataque(active1.party);
-            active2.party.removeIf(v -> v.Vida <= 0);
-            Main.db.write("INSERT INTO turno(cod_batalha) VALUES(" + cod + ");");
+            p.attack(active1.party, 0);
+            active2.party.removeIf(v -> v.health <= 0);
+            Main.db.write("INSERT INTO turno(id_batalha) VALUES(" + cod + ");");
         }
         System.out.println(active1.party.isEmpty() ?
                 "Equipe 2 Vitoriosa" : "Equipe 1 Vitoriosa");
     }
 
-    /**
-     * 
-     */
     public void dump_info() {
         for(var p : party) {
-            System.out.printf("Nome=%s%nClasse=%s%nLevel=%d%nVida=%d%nAtaque=%d%nDefesa=%d%n%n",p.Nome, p.getClass().getName(), p.Nivel, p.Vida, p.Ataque, p.Defesa);
+            System.out.printf("name=%s%nClasse=%s%nLevel=%d%nhealth=%d%nattack=%d%ndefense=%d%n%n",p.name, p.getClass().getName(), p.level, p.health, p.atk, p.def);
         }
     }
 
     public static Equipe equipe_random() throws SQLException {
         Random rng = new Random();
         PersonagemFactory player_factory = new PersonagemFactory(1);
-        ArrayList<Personagem> players = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<>();
         for(int i = 0; i < 3; ++i) {
             int option = rng.nextInt(0, 3);
             switch(option) {
