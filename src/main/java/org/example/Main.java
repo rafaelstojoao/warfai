@@ -75,9 +75,10 @@ public class Main {
                 "CONSTRAINT FOREIGN KEY(id_equipe) REFERENCES Equipe(id)" +
                 ");");
         db.write("CREATE TABLE IF NOT EXISTS Turno(" +
-                "id INT PRIMARY KEY," +
+                "id INT," +
                 "id_batalha INT NOT NULL," +
                 "id_atacante INT NOT NULL," +
+                "CONSTRAINT PRIMARY KEY(id, id_batalha)," +
                 "CONSTRAINT FOREIGN KEY(id_atacante) REFERENCES Player(id)," +
                 "CONSTRAINT FOREIGN KEY(id_batalha) REFERENCES Batalhas(id)" +
                 ");");
