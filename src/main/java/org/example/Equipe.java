@@ -21,10 +21,8 @@ public class Equipe {
      */
     //private boolean ativa = true;
 
-    public Equipe(ArrayList<Player> p, String nome) throws SQLException {
-        for(int i = 0; i < p.size(); ++i) {
-            party.add(p.get(i));
-        }
+    public Equipe(ArrayList<Player> p, String nome) {
+        party.addAll(p);
     }
 
     public Equipe(ArrayList<Player> p, String nome, int cod_usuario_humano) throws SQLException {
@@ -34,8 +32,8 @@ public class Equipe {
         this.id = Integer.parseInt(res.getString("cod_equipe"));
         
         for(int i = 0; i < p.size(); ++i) {
-            System.out.println("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
-            Main.db.write("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).Cod_Classe + ");");
+            System.out.println("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).class_id() + ");");
+            Main.db.write("Insert into player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).class_id() + ");");
             party.add(p.get(i));
         }
     }
@@ -88,7 +86,7 @@ public class Equipe {
             int player_selected = rng.nextInt(0, active1.party.size());
             Player p = active1.party.get(player_selected);
             p.attack(active2.party, 0);
-            active1.party.removeIf(v -> v.health <= 0);
+            active1.party.removeIf(Player::is_dead);
             
             if(active1.party.isEmpty())
             {
@@ -99,7 +97,7 @@ public class Equipe {
             player_selected = rng.nextInt(0, active2.party.size());
             p = active2.party.get(player_selected);
             p.attack(active1.party, 0);
-            active2.party.removeIf(v -> v.health <= 0);
+            active2.party.removeIf(Player::is_dead);
             Main.db.write("INSERT INTO turno(id_batalha) VALUES(" + cod + ");");
         }
         System.out.println(active1.party.isEmpty() ?
@@ -107,9 +105,9 @@ public class Equipe {
     }
 
     public void dump_info() {
-        for(var p : party) {
-            System.out.printf("name=%s%nClasse=%s%nLevel=%d%nhealth=%d%nattack=%d%ndefense=%d%n%n",p.name, p.getClass().getName(), p.level, p.health, p.atk, p.def);
-        }
+//        for(var p : party) {
+//            System.out.printf("name=%s%nClasse=%s%nLevel=%d%nhealth=%d%nattack=%d%ndefense=%d%n%n",p.name, p.getClass().getName(), p.level, p.health, p.atk, p.def);
+//        }
     }
 
     public static Equipe equipe_random() throws SQLException {
@@ -120,15 +118,15 @@ public class Equipe {
             int option = rng.nextInt(0, 3);
             switch(option) {
                 case 0: {
-                    players.add(player_factory.makeGuerreiro("CPU " + (i + 1)));
+                    players.add(new Player("CPU " + (i + 1), player_factory.makeGuerreiro()));
                     break;
                 }
                 case 1: {
-                    players.add(player_factory.makeArqueiro("CPU " + (i+1)));
+                    players.add(new Player("CPU " + (i+1), player_factory.makeArqueiro()));
                     break;
                 }
                 case 2: {
-                    players.add(player_factory.makeMago("CPU " + (i+1)));
+                    players.add(new Player("CPU " + (i+1), player_factory.makeMago()));
                     break;
                 }
             }

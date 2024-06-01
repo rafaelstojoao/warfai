@@ -2,22 +2,19 @@ package org.example;
 
 import java.util.*;
 
-public abstract class Player {
+public class Player {
     protected String name;
-    protected int level;
-
-    protected int health;
-    protected int atk;
-    protected int def;
-    protected int Cod_Classe;
-    public Player(String name, int level, int health, int atk, int def, int cod_classe) {
+    protected PlayerClass player_class;
+    public Player(String name, PlayerClass player_class) {
         this.name = name;
-        this.level = level;
-        this.health = health;
-        this.atk = atk;
-        this.def = def;
-        Cod_Classe = cod_classe;
+        this.player_class = player_class;
     }
 
-    public abstract void attack(ArrayList<Player> group, int selected_player);
+    public void attack(ArrayList<Player> group, int selected_player) {
+        player_class.attack(group, selected_player);
+    }
+
+    public boolean is_dead() { return player_class.health <= 0; }
+
+    public int class_id() { return player_class.id(); }
 }

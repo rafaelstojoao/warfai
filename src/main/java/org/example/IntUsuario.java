@@ -32,15 +32,15 @@ public class IntUsuario {
                     int player_class = ler.nextInt();
                     switch(player_class) {
                         case 0: {
-                            players.add(player_factory.makeGuerreiro(nome));
+                            players.add(new Player(nome, player_factory.makeGuerreiro()));
                             break;
                         }
                         case 1: {
-                            players.add(player_factory.makeArqueiro(nome));
+                            players.add(new Player(nome, player_factory.makeArqueiro()));
                             break;
                         }
                         case 2: {
-                            players.add(player_factory.makeMago(nome));
+                            players.add(new Player(nome, player_factory.makeMago()));
                             break;
                         }
                     }
