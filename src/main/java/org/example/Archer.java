@@ -13,7 +13,7 @@ public class Archer extends PlayerClass {
 
     @Override
     public int id() {
-        return 1;
+        return 2;
     }
 
     @Override

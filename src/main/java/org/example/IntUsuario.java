@@ -64,10 +64,10 @@ public class IntUsuario {
         else if(option == 0){
             System.out.println("Digite seu nome de usuario: ");
             String nome_usuario = ler.next();
-            Main.db.write("Insert into usuario_humano(nome_usuario) values('"+nome_usuario+"');");
-            ResultSet res = Main.db.consulta("Select * from usuario_humano order by cod_usuario desc limit 1;");
+            Main.db.write("Insert into usuario_humano(nome) values('"+nome_usuario+"');");
+            ResultSet res = Main.db.consulta("Select * from usuario_humano order by id desc limit 1;");
             res.next();
-            int cod = Integer.parseInt(res.getString("cod_usuario"));
+            int cod = Integer.parseInt(res.getString("id"));
             System.out.println();
             return CriarEquipe(nome_usuario, cod);
         }

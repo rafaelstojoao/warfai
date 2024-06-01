@@ -10,8 +10,9 @@ public class Warrior extends PlayerClass {
 
     @Override
     public int id() {
-        return 0;
+        return 1;
     }
+
     @Override
     public void attack(ArrayList<Player> rest, int selected_player) {
         rest.get(selected_player).player_class.health -=Math.max(atk - rest.get(selected_player).player_class.def, 1);

@@ -9,7 +9,7 @@ class Mage extends PlayerClass {
 
     @Override
     public int id() {
-        return 2;
+        return 3;
     }
     @Override
     public void attack(ArrayList<Player> group, int selected_player) {
