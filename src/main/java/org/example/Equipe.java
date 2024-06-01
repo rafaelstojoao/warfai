@@ -32,8 +32,10 @@ public class Equipe {
         this.id = Integer.parseInt(res.getString("id"));
         
         for(int i = 0; i < p.size(); ++i) {
-            System.out.println("Insert into Player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).class_id() + ");");
             Main.db.write("Insert into Player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).class_id() + ");");
+            ResultSet res2 = Main.db.consulta("Select * from Player order by id desc limit 1;");
+            res2.next();
+            p.get(i).set_id(res2.getInt("id"));
             party.add(p.get(i));
         }
     }
@@ -82,6 +84,7 @@ public class Equipe {
         ResultSet res = Main.db.consulta("Select * from Batalhas order by id desc limit 1;");
         res.next();
         int cod = Integer.parseInt(res.getString("id"));
+        int i = 1;
         while(!active1.party.isEmpty() && !active2.party.isEmpty()) {
             int player_selected = rng.nextInt(0, active1.party.size());
             Player p = active1.party.get(player_selected);
@@ -90,15 +93,16 @@ public class Equipe {
             
             if(active1.party.isEmpty())
             {
-                Main.db.write("INSERT INTO Turno(id_batalha) VALUES(" + cod + ");");
+                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + i + "," + cod + "," + p.id + ");");
                 break;
             }
             
-            player_selected = rng.nextInt(0, active2.party.size());
-            p = active2.party.get(player_selected);
+            int second_player_selected = rng.nextInt(0, active2.party.size());
+            p = active2.party.get(second_player_selected);
             p.attack(active1.party, 0);
             active2.party.removeIf(Player::is_dead);
-            Main.db.write("INSERT INTO Turno(id_batalha) VALUES(" + cod + ");");
+            Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + i + "," + cod + "," + p.id +");");
+            ++i;
         }
         System.out.println(active1.party.isEmpty() ?
                 "Equipe 2 Vitoriosa" : "Equipe 1 Vitoriosa");
@@ -131,8 +135,17 @@ public class Equipe {
                 }
             }
         }
-       Equipe e = new Equipe(players, "CPU");
+        Equipe e = new Equipe(players, "CPU");
         Main.db.write("Insert into Equipe(nome) values ('CPU');");
+        ResultSet res = Main.db.consulta("Select * from Equipe order by id desc limit 1;");
+        res.next();
+        e.id = Integer.parseInt(res.getString("id"));
+        for(var player: players) {
+            Main.db.write("Insert into Player(nickname, id_equipe, id_classe) values ('" + player.name + "'," + e.id + "," + player.class_id() + ");");
+            ResultSet res2 = Main.db.consulta("Select * from Player order by id desc limit 1;");
+            res2.next();
+            player.set_id(res2.getInt("id"));
+        }
         e.set_bot(true);
         return e;
     }

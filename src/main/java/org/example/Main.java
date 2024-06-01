@@ -28,8 +28,8 @@ public class Main {
     }
 
     public static void drop_tables() throws SQLException {
-        db.write("DROP TABLE IF EXISTS Player;");
         db.write("DROP TABLE IF EXISTS Turno;");
+        db.write("DROP TABLE IF EXISTS Player;");
         db.write("DROP TABLE IF EXISTS Batalhas;");
         db.write("DROP TABLE IF EXISTS Equipe;");
         db.write("DROP TABLE IF EXISTS Classe;");
@@ -43,10 +43,7 @@ public class Main {
                 ");");
         db.write("CREATE TABLE IF NOT EXISTS Classe(" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +
-                "nome VARCHAR(50) NOT NULL," +
-                "ataque INT NOT NULL," +
-                "defesa INT NOT NULL," +
-                "vida INT NOT NULL" +
+                "nome VARCHAR(50) NOT NULL" +
                 ");");
         db.write("CREATE TABLE IF NOT EXISTS Equipe(" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +
@@ -67,11 +64,6 @@ public class Main {
                 "CONSTRAINT FOREIGN KEY(id_equipe2) REFERENCES Equipe(id)," +
                 "CONSTRAINT FOREIGN KEY(id_equipe_vitoriosa) REFERENCES Equipe(id)" +
                 ");");
-        db.write("CREATE TABLE IF NOT EXISTS Turno(" +
-                "id_turno INT PRIMARY KEY," +
-                "id_batalha INT NOT NULL," +
-                "CONSTRAINT FOREIGN KEY(id_batalha) REFERENCES Batalhas(id)" +
-                ");");
         db.write("CREATE TABLE IF NOT EXISTS Player(" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +
                 "nickname VARCHAR(50) NOT NULL," +
@@ -82,9 +74,16 @@ public class Main {
                 "CONSTRAINT FOREIGN KEY(id_classe) REFERENCES Classe(id)," +
                 "CONSTRAINT FOREIGN KEY(id_equipe) REFERENCES Equipe(id)" +
                 ");");
+        db.write("CREATE TABLE IF NOT EXISTS Turno(" +
+                "id INT PRIMARY KEY," +
+                "id_batalha INT NOT NULL," +
+                "id_atacante INT NOT NULL," +
+                "CONSTRAINT FOREIGN KEY(id_atacante) REFERENCES Player(id)," +
+                "CONSTRAINT FOREIGN KEY(id_batalha) REFERENCES Batalhas(id)" +
+                ");");
     }
 
     public static void setup_tables() throws SQLException {
-        db.write("INSERT INTO Classe(nome, ataque, defesa, vida) VALUES('Warrior', 7, 3, 100), ('Archer', 3, 7, 100), ('Mage', 1, 9, 100);");
+        db.write("INSERT INTO Classe(nome) VALUES('Warrior'), ('Archer'), ('Mage');");
     }
 }

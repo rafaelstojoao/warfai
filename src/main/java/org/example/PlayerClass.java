@@ -5,7 +5,6 @@ import java.util.ArrayList;
 record LevelStatus(int health, int attack, int defense) {}
 
 public abstract class PlayerClass {
-    protected int level = 1;
     protected int health;
     protected int atk;
     protected int def;
@@ -18,4 +17,6 @@ public abstract class PlayerClass {
 
     public abstract int id();
     public abstract void attack(ArrayList<Player> group, int selected_player);
+
+    public abstract void levelup(int old_level, int new_level);
 }

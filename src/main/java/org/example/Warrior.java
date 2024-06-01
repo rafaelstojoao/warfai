@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Warrior extends PlayerClass {
     // Level Max(10) 300 Vida 9 Atk 18 Def
-    static private Map level_map = Map.ofEntries(
+    static final private Map<Integer, LevelStatus> level_map = Map.ofEntries(
             Map.entry(1, new LevelStatus(100,3,7)),
             Map.entry(2, new LevelStatus(15,1,1)),
             Map.entry(3, new LevelStatus(15,0,1)),
@@ -29,5 +29,15 @@ public class Warrior extends PlayerClass {
     @Override
     public void attack(ArrayList<Player> rest, int selected_player) {
         rest.get(selected_player).player_class.health -=Math.max(atk - rest.get(selected_player).player_class.def, 1);
+    }
+
+    @Override
+    public void levelup(int old_level, int new_level) {
+        for (int i = old_level+1; i <= new_level; ++i) {
+            LevelStatus status = level_map.get(i);
+            this.health += status.health();
+            this.atk += status.attack();
+            this.def += status.defense();
+        }
     }
 }
