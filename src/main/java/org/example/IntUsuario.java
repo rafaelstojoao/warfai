@@ -1,20 +1,10 @@
 package org.example;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * @author unifai
- */
 public class IntUsuario {
     
     Equipe CriarEquipe(String nome_usuario, int cod_usuario_humano) throws SQLException {
@@ -68,8 +58,9 @@ public class IntUsuario {
             ResultSet res = Main.db.consulta("Select * from usuario_humano order by id desc limit 1;");
             res.next();
             int cod = Integer.parseInt(res.getString("id"));
-            System.out.println();
-            return CriarEquipe(nome_usuario, cod);
+            Equipe e = CriarEquipe(nome_usuario, cod);
+            System.out.println("O ID da sua equipe é: " + e.id());
+            return e;
         }
 
         ResultSet res = Main.db.consulta("SELECT e.id, e.nome, p.id, p.nickname, p.nivel, p.exp, p.id_classe " +

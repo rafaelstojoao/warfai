@@ -48,20 +48,15 @@ public class Equipe {
         }
     }
 
-    /**
-     * @param p
-     */
     public void add_player(Player p) {
         party.add(p);
     }
 
-    /**
-     * @param p
-     */
     public void remove_player(Player p) {
         party.remove(p);
     }
-    
+
+    public int id() { return id; }
     public boolean is_bot() { return bot; }
     public void set_bot(boolean bot) { this.bot = bot; } 
     /**
