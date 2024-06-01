@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.ArrayList;
 
+record LevelStatus(int health, int attack, int defense) {}
+
 public abstract class PlayerClass {
     protected int level = 1;
     protected int health;

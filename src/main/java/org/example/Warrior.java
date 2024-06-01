@@ -4,6 +4,19 @@ package org.example;
 import java.util.*;
 
 public class Warrior extends PlayerClass {
+    // Level Max(10) 300 Vida 9 Atk 18 Def
+    static private Map level_map = Map.ofEntries(
+            Map.entry(1, new LevelStatus(100,3,7)),
+            Map.entry(2, new LevelStatus(15,1,1)),
+            Map.entry(3, new LevelStatus(15,0,1)),
+            Map.entry(4, new LevelStatus(18,1,1)),
+            Map.entry(5, new LevelStatus(18,1,1)),
+            Map.entry(6, new LevelStatus(20,0,1)),
+            Map.entry(7, new LevelStatus(20,0,1)),
+            Map.entry(8, new LevelStatus(22,1,1)),
+            Map.entry(9, new LevelStatus(23,1,1)),
+            Map.entry(10, new LevelStatus(24,0,1))
+    );
     public Warrior() {
         super(100, 3, 7);
     }
