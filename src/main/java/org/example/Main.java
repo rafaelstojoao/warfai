@@ -17,12 +17,8 @@ public class Main {
         }
         IntUsuario interacao = new IntUsuario();
         Equipe fai = interacao.MenuEquipe();
-        System.out.println("Equipe 1: \n");
-        fai.dump_info();
 
         Equipe fatec = Equipe.equipe_random();
-        System.out.println("Equipe 2: \n");
-        fatec.dump_info();
 
         fai.battle(fatec);
     }

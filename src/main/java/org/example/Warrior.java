@@ -21,6 +21,11 @@ public class Warrior extends PlayerClass {
         super(100, 3, 7);
     }
 
+    public Warrior(int level) {
+        super(100, 3, 7);
+        levelup(1, level);
+    }
+
     @Override
     public int id() {
         return 1;

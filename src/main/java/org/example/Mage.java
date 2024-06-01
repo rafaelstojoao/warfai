@@ -20,6 +20,11 @@ class Mage extends PlayerClass {
         super(100, 9, 1);
     }
 
+    public Mage(int level) {
+        super(100, 9, 1);
+        levelup(1, level);
+    }
+
     @Override
     public int id() {
         return 3;

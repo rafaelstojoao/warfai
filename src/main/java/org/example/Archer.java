@@ -23,6 +23,11 @@ public class Archer extends PlayerClass {
         super(100, 7, 3);
     }
 
+    public Archer(int level) {
+        super(100, 7, 3);
+        levelup(1, level);
+    }
+
     @Override
     public int id() {
         return 2;
