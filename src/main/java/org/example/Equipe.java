@@ -84,12 +84,13 @@ public class Equipe {
             }
             int player_selected = in.nextInt();
             Player p = active1.party.get(player_selected);
+            int id1 = p.id;
             p.attack(active2.party, 0);
             active1.party.removeIf(Player::is_dead);
             
             if(active1.party.isEmpty())
             {
-                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + p.id + ");");
+                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + id1 + ");");
                 break;
             }
 
@@ -105,9 +106,13 @@ public class Equipe {
                 second_player_selected = in.nextInt();
             }
             p = active2.party.get(second_player_selected);
+            int id2 = p.id;
             p.attack(active1.party, 0);
             active2.party.removeIf(Player::is_dead);
-            Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + p.id +");");
+            Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + id1 +");");
+            if(!active2.is_bot()) {
+                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + id2 +");");
+            }
             ++turno;
         }
         System.out.println(active1.party.isEmpty() ?

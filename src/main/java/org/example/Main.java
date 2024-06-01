@@ -78,7 +78,7 @@ public class Main {
                 "id INT," +
                 "id_batalha INT NOT NULL," +
                 "id_atacante INT NOT NULL," +
-                "CONSTRAINT PRIMARY KEY(id, id_batalha)," +
+                "CONSTRAINT PRIMARY KEY(id, id_batalha, id_atacante)," +
                 "CONSTRAINT FOREIGN KEY(id_atacante) REFERENCES Player(id)," +
                 "CONSTRAINT FOREIGN KEY(id_batalha) REFERENCES Batalhas(id)" +
                 ");");
