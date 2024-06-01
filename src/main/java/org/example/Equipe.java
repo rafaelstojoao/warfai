@@ -68,41 +68,47 @@ public class Equipe {
      * @param e
      */
     public void battle(Equipe e) throws SQLException {
-        Equipe active1 = null;
-        Equipe active2 = null;
+        Equipe active1 = new Equipe(this); // O primeiro nunca será um bot
+        Equipe active2 = new Equipe(e);
         Random rng = new Random();
-        if(rng.nextInt(0, 101) > 50) {
-            active1 = new Equipe(this);
-            active2 = new Equipe(e);
-        }
-        else {
-            active2 = new Equipe(this);
-            active1 = new Equipe(e);     
-        }
-
+        Scanner in = new Scanner(System.in);
         Main.db.write("INSERT INTO Batalhas(id_equipe1, id_equipe2) VALUES(" + this.id + "," + e.id + ");");
         ResultSet res = Main.db.consulta("Select * from Batalhas order by id desc limit 1;");
         res.next();
         int cod = Integer.parseInt(res.getString("id"));
-        int i = 1;
+        int turno = 1;
         while(!active1.party.isEmpty() && !active2.party.isEmpty()) {
-            int player_selected = rng.nextInt(0, active1.party.size());
+            System.out.println("Qual player irá atacar:");
+            for(int i = 0; i < active1.party.size(); ++i) {
+                System.out.println("    " + i + " -> " + active1.party.get(i).name);
+            }
+            int player_selected = in.nextInt();
             Player p = active1.party.get(player_selected);
             p.attack(active2.party, 0);
             active1.party.removeIf(Player::is_dead);
             
             if(active1.party.isEmpty())
             {
-                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + i + "," + cod + "," + p.id + ");");
+                Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + p.id + ");");
                 break;
             }
-            
-            int second_player_selected = rng.nextInt(0, active2.party.size());
+
+            int second_player_selected = 0;
+            if(active2.is_bot()) {
+                rng.nextInt(0, active2.party.size());
+            }
+            else {
+                System.out.println("Qual player irá atacar:");
+                for(int i = 0; i < active1.party.size(); ++i) {
+                    System.out.println("    " + i + " -> " + active1.party.get(i).name);
+                }
+                second_player_selected = in.nextInt();
+            }
             p = active2.party.get(second_player_selected);
             p.attack(active1.party, 0);
             active2.party.removeIf(Player::is_dead);
-            Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + i + "," + cod + "," + p.id +");");
-            ++i;
+            Main.db.write("INSERT INTO Turno(id, id_batalha, id_atacante) VALUES(" + turno + "," + cod + "," + p.id +");");
+            ++turno;
         }
         System.out.println(active1.party.isEmpty() ?
                 "Equipe 2 Vitoriosa" : "Equipe 1 Vitoriosa");
