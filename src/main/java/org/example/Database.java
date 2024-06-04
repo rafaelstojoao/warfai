@@ -9,12 +9,14 @@ public class Database {
     public Connection connection = null;
     public Statement statement = null;
 
-    public void connect() {
+    public boolean connect() {
         try {
             this.connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/Warfai", "fernando", "adamantina");
         } catch(Exception e) {
             System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     public void write(String sql) throws SQLException {

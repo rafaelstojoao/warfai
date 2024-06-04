@@ -7,34 +7,25 @@ import java.util.Scanner;
 
 public class IntUsuario {
     
-    Equipe CriarEquipe(String nome_usuario, int cod_usuario_humano) throws SQLException {
-                Scanner ler = new Scanner(System.in);
-
-                ArrayList<Player> players = new ArrayList<>();
-                for(int i = 0; i < 3; i++) {
-                    System.out.println("Digite seu nickname: ");
-                    String nome = ler.next();
-                    System.out.println("Selecione sua classe:\n"
-                            + "0 -> Guerreiro\n"
-                            + "1 -> Arqueiro\n"
-                            + "2 -> Mago\n");
-                    int player_class = ler.nextInt();
-                    switch(player_class) {
-                        case 0: {
-                            players.add(new Player(nome, new Warrior()));
-                            break;
-                        }
-                        case 1: {
-                            players.add(new Player(nome, new Archer()));
-                            break;
-                        }
-                        case 2: {
-                            players.add(new Player(nome, new Mage()));
-                            break;
-                        }
-                    }
-                }    
-            return new Equipe(players, nome_usuario, cod_usuario_humano);
+    Equipe create_team(String username, int user_id) throws SQLException {
+        Scanner ler = new Scanner(System.in);
+        ArrayList<Player> players = new ArrayList<>();
+        for(int i = 0; i < 3; i++) {
+            System.out.print("Digite seu nickname: ");
+            String nome = ler.next();
+            System.out.print("Selecione sua classe:\n"
+                    + "0 -> Guerreiro\n"
+                    + "1 -> Arqueiro\n"
+                    + "2 -> Mago\n");
+            int player_class = ler.nextInt();
+            players.add(switch (player_class) {
+                case 0 -> new Player(nome, new Warrior());
+                case 1 -> new Player(nome, new Archer());
+                case 2 -> new Player(nome, new Mage());
+                default -> throw new RuntimeException("Must be a valid number");
+            });
+        }
+        return new Equipe(players, username, user_id);
     }
     /**
     * -1 -> Sair
@@ -57,7 +48,7 @@ public class IntUsuario {
             ResultSet res = Main.db.consulta("Select * from usuario_humano order by id desc limit 1;");
             res.next();
             int cod = Integer.parseInt(res.getString("id"));
-            Equipe e = CriarEquipe(nome_usuario, cod);
+            Equipe e = create_team(nome_usuario, cod);
             System.out.println("O ID da sua equipe é: " + e.id());
             return e;
         }
