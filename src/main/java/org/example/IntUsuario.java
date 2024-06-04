@@ -9,7 +9,6 @@ public class IntUsuario {
     
     Equipe CriarEquipe(String nome_usuario, int cod_usuario_humano) throws SQLException {
                 Scanner ler = new Scanner(System.in);
-                PersonagemFactory player_factory = new PersonagemFactory(1);
 
                 ArrayList<Player> players = new ArrayList<>();
                 for(int i = 0; i < 3; i++) {
@@ -22,15 +21,15 @@ public class IntUsuario {
                     int player_class = ler.nextInt();
                     switch(player_class) {
                         case 0: {
-                            players.add(new Player(nome, player_factory.makeGuerreiro()));
+                            players.add(new Player(nome, new Warrior()));
                             break;
                         }
                         case 1: {
-                            players.add(new Player(nome, player_factory.makeArqueiro()));
+                            players.add(new Player(nome, new Archer()));
                             break;
                         }
                         case 2: {
-                            players.add(new Player(nome, player_factory.makeMago()));
+                            players.add(new Player(nome, new Mage()));
                             break;
                         }
                     }

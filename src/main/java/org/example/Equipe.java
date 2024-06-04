@@ -122,21 +122,20 @@ public class Equipe {
 
     public static Equipe equipe_random() throws SQLException {
         Random rng = new Random();
-        PersonagemFactory player_factory = new PersonagemFactory(1);
         ArrayList<Player> players = new ArrayList<>();
         for(int i = 0; i < 3; ++i) {
             int option = rng.nextInt(0, 3);
             switch(option) {
                 case 0: {
-                    players.add(new Player("CPU " + (i + 1), player_factory.makeGuerreiro()));
+                    players.add(new Player("CPU " + (i + 1), new Warrior()));
                     break;
                 }
                 case 1: {
-                    players.add(new Player("CPU " + (i+1), player_factory.makeArqueiro()));
+                    players.add(new Player("CPU " + (i+1), new Archer()));
                     break;
                 }
                 case 2: {
-                    players.add(new Player("CPU " + (i+1), player_factory.makeMago()));
+                    players.add(new Player("CPU " + (i+1), new Mage()));
                     break;
                 }
             }
