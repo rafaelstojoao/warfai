@@ -29,14 +29,9 @@ public class Main {
         db.write("DROP TABLE IF EXISTS Batalhas;");
         db.write("DROP TABLE IF EXISTS Equipe;");
         db.write("DROP TABLE IF EXISTS Classe;");
-        db.write("DROP TABLE IF EXISTS usuario_humano;");
     }
 
     public static void create_tables() throws SQLException {
-        db.write("CREATE TABLE usuario_humano (" +
-                "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
-                "nome VARCHAR(30) NOT NULL" +
-                ");");
         db.write("CREATE TABLE IF NOT EXISTS Classe(" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +
                 "nome VARCHAR(50) NOT NULL" +
@@ -46,9 +41,7 @@ public class Main {
                 "nome VARCHAR(50) NOT NULL," +
                 "vitoria INT NOT NULL DEFAULT 0," +
                 "derrota INT NOT NULL DEFAULT 0," +
-                "descricao TEXT," +
-                "id_usuario_humano INT," +
-                "CONSTRAINT FOREIGN KEY(id_usuario_humano) REFERENCES usuario_humano(id)" +
+                "descricao TEXT" +
                 ");");
         db.write("CREATE TABLE IF NOT EXISTS Batalhas(" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +

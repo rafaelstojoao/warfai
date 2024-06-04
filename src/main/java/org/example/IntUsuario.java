@@ -7,9 +7,12 @@ import java.util.Scanner;
 
 public class IntUsuario {
     
-    Equipe create_team(String username, int user_id) throws SQLException {
+    Equipe create_team() throws SQLException {
         Scanner ler = new Scanner(System.in);
         ArrayList<Player> players = new ArrayList<>();
+
+        System.out.print("Digite o nome da sua equipe: ");
+        String name = ler.next();
         for(int i = 0; i < 3; i++) {
             System.out.print("Digite seu nickname: ");
             String nome = ler.next();
@@ -25,7 +28,7 @@ public class IntUsuario {
                 default -> throw new RuntimeException("Must be a valid number");
             });
         }
-        return new Equipe(players, username, user_id);
+        return new Equipe(players, name);
     }
     /**
     * -1 -> Sair
@@ -42,13 +45,7 @@ public class IntUsuario {
         if(option == -1)
             return null;
         else if(option == 0){
-            System.out.println("Digite seu nome de usuario: ");
-            String nome_usuario = ler.next();
-            Main.db.write("Insert into usuario_humano(nome) values('"+nome_usuario+"');");
-            ResultSet res = Main.db.consulta("Select * from usuario_humano order by id desc limit 1;");
-            res.next();
-            int cod = Integer.parseInt(res.getString("id"));
-            Equipe e = create_team(nome_usuario, cod);
+            Equipe e = create_team();
             System.out.println("O ID da sua equipe é: " + e.id());
             return e;
         }
@@ -85,8 +82,6 @@ public class IntUsuario {
             });
             res.next();
         }
-        Equipe e = new Equipe(players, nome_equipe, id);
-        // Entrar ID Player
-        return e;
+        return new Equipe(players, nome_equipe);
     }
 }

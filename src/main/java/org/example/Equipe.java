@@ -16,17 +16,9 @@ public class Equipe {
     private ArrayList<Player> party = new ArrayList<>();
     private boolean bot = false; 
     private int id = 0;
-    /**
-     * 
-     */
-    //private boolean ativa = true;
 
-    public Equipe(ArrayList<Player> p, String nome) {
-        party.addAll(p);
-    }
-
-    public Equipe(ArrayList<Player> p, String nome, int cod_usuario_humano) throws SQLException {
-        Main.db.write("Insert into Equipe(nome, id_usuario_humano) values ('"+ nome + "',"+ cod_usuario_humano +");");
+    public Equipe(ArrayList<Player> p, String nome) throws SQLException {
+        Main.db.write("Insert into Equipe(nome) values ('"+ nome +"'" + ");");
         ResultSet res = Main.db.consulta("Select * from Equipe order by id desc limit 1;");
         res.next();
         this.id = Integer.parseInt(res.getString("id"));
@@ -43,9 +35,7 @@ public class Equipe {
     public Equipe(Equipe e) {
         id = e.id;
         bot = e.bot;
-        for(int i = 0; i < e.party.size(); ++i) {
-            party.add(e.party.get(i));
-        }
+        party.addAll(e.party);
     }
 
     public void add_player(Player p) {
@@ -58,10 +48,8 @@ public class Equipe {
 
     public int id() { return id; }
     public boolean is_bot() { return bot; }
-    public void set_bot(boolean bot) { this.bot = bot; } 
-    /**
-     * @param e
-     */
+    public void set_bot(boolean bot) { this.bot = bot; }
+
     public void battle(Equipe e) throws SQLException {
         Equipe active1 = new Equipe(this); // O primeiro nunca será um bot
         Equipe active2 = new Equipe(e);
