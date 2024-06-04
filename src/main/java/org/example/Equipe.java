@@ -120,25 +120,20 @@ public class Equipe {
 //        }
     }
 
-    public static Equipe equipe_random() throws SQLException {
+    public static Equipe random_team(int level_min, int level_max) throws SQLException {
         Random rng = new Random();
         ArrayList<Player> players = new ArrayList<>();
+        int base_level = rng.nextInt(level_min, level_max+1);
         for(int i = 0; i < 3; ++i) {
             int option = rng.nextInt(0, 3);
-            switch(option) {
-                case 0: {
-                    players.add(new Player("CPU " + (i + 1), new Warrior()));
-                    break;
-                }
-                case 1: {
-                    players.add(new Player("CPU " + (i+1), new Archer()));
-                    break;
-                }
-                case 2: {
-                    players.add(new Player("CPU " + (i+1), new Mage()));
-                    break;
-                }
-            }
+            int diff = rng.nextInt(-2, 2+1);
+            int level = Math.max(Math.min(base_level+diff, 10), 1);
+            players.add(switch(option) {
+                case 0 -> new Player("CPU " + (i+1), new Warrior(level));
+                case 1 -> new Player("CPU " + (i+1), new Archer(level));
+                case 2 -> new Player("CPU " + (i+1), new Mage(level));
+                default -> throw new RuntimeException("");
+            });
         }
         Equipe e = new Equipe(players, "CPU");
         Main.db.write("Insert into Equipe(nome) values ('CPU');");

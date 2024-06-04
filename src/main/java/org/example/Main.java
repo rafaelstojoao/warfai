@@ -18,7 +18,7 @@ public class Main {
         IntUsuario interacao = new IntUsuario();
         Equipe fai = interacao.MenuEquipe();
 
-        Equipe fatec = Equipe.equipe_random();
+        Equipe fatec = Equipe.random_team(1, 1);
 
         fai.battle(fatec);
     }
