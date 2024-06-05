@@ -98,6 +98,19 @@ public class Equipe {
             }
             ++turno;
         }
+        if (active2.party.isEmpty()) {
+            this.party.forEach(player -> {
+                if (player.level >= 10) {
+                    return;
+                }
+                player.levelup(player.level+1);
+                try {
+                    Main.db.write("UPDATE Player SET nivel = " + player.level + " WHERE id = " + player.id + ";");
+                } catch (SQLException except) {
+                    System.err.println(except.getMessage());
+                }
+            });
+        }
         System.out.println(active1.party.isEmpty() ?
                 "Equipe 2 Vitoriosa" : "Equipe 1 Vitoriosa");
     }
@@ -117,9 +130,9 @@ public class Equipe {
             int diff = rng.nextInt(-2, 2+1);
             int level = Math.max(Math.min(base_level+diff, 10), 1);
             players.add(switch(option) {
-                case 0 -> new Player("CPU " + (i+1), new Warrior(level));
-                case 1 -> new Player("CPU " + (i+1), new Archer(level));
-                case 2 -> new Player("CPU " + (i+1), new Mage(level));
+                case 0 -> new Player("CPU " + (i+1), level, new Warrior());
+                case 1 -> new Player("CPU " + (i+1), level, new Archer());
+                case 2 -> new Player("CPU " + (i+1), level, new Mage());
                 default -> throw new RuntimeException("");
             });
         }

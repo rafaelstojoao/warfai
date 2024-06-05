@@ -22,9 +22,9 @@ public class IntUsuario {
                     + "2 -> Mago\n");
             int player_class = ler.nextInt();
             players.add(switch (player_class) {
-                case 0 -> new Player(nome, new Warrior());
-                case 1 -> new Player(nome, new Archer());
-                case 2 -> new Player(nome, new Mage());
+                case 0 -> new Player(nome, 1, new Warrior());
+                case 1 -> new Player(nome, 1, new Archer());
+                case 2 -> new Player(nome, 1, new Mage());
                 default -> throw new RuntimeException("Must be a valid number");
             });
         }
@@ -64,17 +64,17 @@ public class IntUsuario {
             int id_classe = res.getInt("p.id_classe");
             players.add(switch (id_classe) {
                 case 1: {
-                    Player p = new Player(p_name, new Warrior());
+                    Player p = new Player(p_name, 1, new Warrior());
                     p.set_id(p_id);
                     yield p;
                 }
                 case 2: {
-                    Player p = new Player(p_name, new Archer());
+                    Player p = new Player(p_name, 1, new Archer());
                     p.set_id(p_id);
                     yield p;
                 }
                 case 3: {
-                    Player p = new Player(p_name, new Mage());
+                    Player p = new Player(p_name, 1, new Mage());
                     p.set_id(p_id);
                     yield p;
                 }
