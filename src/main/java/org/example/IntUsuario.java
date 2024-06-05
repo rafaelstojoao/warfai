@@ -28,8 +28,21 @@ public class IntUsuario {
                 default -> throw new RuntimeException("Must be a valid number");
             });
         }
-        return new Equipe(players, name);
+        Equipe e = new Equipe(players, name);
+        Main.db.write("Insert into Equipe(nome) values ('"+ name +"');");
+        ResultSet res = Main.db.consulta("SELECT * FROM Equipe ORDER BY id DESC LIMIT 1;");
+        res.next();
+        e.set_id(res.getInt("id"));
+
+        for(var player : players) {
+            Main.db.write("Insert into Player(nickname, id_equipe, id_classe) values ('" + player.name + "'," + e.id() + "," + player.class_id() + ");");
+            res = Main.db.consulta("Select * from Player order by id desc limit 1;");
+            res.next();
+            player.set_id(res.getInt("id"));
+        }
+        return e;
     }
+
     /**
     * -1 -> Sair
     * 0 -> Criar equipe
@@ -82,6 +95,8 @@ public class IntUsuario {
             });
             res.next();
         }
+        Equipe e = new Equipe(players, nome_equipe);
+        e.set_id(id);
         return new Equipe(players, nome_equipe);
     }
 }

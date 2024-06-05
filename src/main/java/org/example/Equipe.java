@@ -10,26 +10,14 @@ import java.util.*;
  */
 public class Equipe {
 
-    /**
-     * 
-     */
+    private int id = 0;
+    private String name;
     private ArrayList<Player> party = new ArrayList<>();
     private boolean bot = false; 
-    private int id = 0;
 
-    public Equipe(ArrayList<Player> p, String nome) throws SQLException {
-        Main.db.write("Insert into Equipe(nome) values ('"+ nome +"'" + ");");
-        ResultSet res = Main.db.consulta("Select * from Equipe order by id desc limit 1;");
-        res.next();
-        this.id = Integer.parseInt(res.getString("id"));
-        
-        for(int i = 0; i < p.size(); ++i) {
-            Main.db.write("Insert into Player(nickname, id_equipe, id_classe) values ('" + p.get(i).name + "'," + this.id + "," + p.get(i).class_id() + ");");
-            ResultSet res2 = Main.db.consulta("Select * from Player order by id desc limit 1;");
-            res2.next();
-            p.get(i).set_id(res2.getInt("id"));
-            party.add(p.get(i));
-        }
+    public Equipe(ArrayList<Player> p, String name) {
+        this.name = name;
+        party.addAll(p);
     }
     
     public Equipe(Equipe e) {
@@ -47,6 +35,8 @@ public class Equipe {
     }
 
     public int id() { return id; }
+    public void set_id(int id) { this.id = id; }
+
     public boolean is_bot() { return bot; }
     public void set_bot(boolean bot) { this.bot = bot; }
 
@@ -137,7 +127,7 @@ public class Equipe {
             });
         }
         Equipe e = new Equipe(players, "CPU");
-        Main.db.write("Insert into Equipe(nome) values ('CPU');");
+        Main.db.write("INSERT INTO Equipe(nome) VALUES ('CPU');");
         ResultSet res = Main.db.consulta("Select * from Equipe order by id desc limit 1;");
         res.next();
         e.id = Integer.parseInt(res.getString("id"));

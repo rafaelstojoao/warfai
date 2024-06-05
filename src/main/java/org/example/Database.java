@@ -2,8 +2,6 @@ package org.example;
 
 
 import java.sql.*;
-import java.util.ArrayList;
-import org.mariadb.jdbc.Driver;
 
 public class Database {
     public Connection connection = null;
