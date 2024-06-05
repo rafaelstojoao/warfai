@@ -18,31 +18,14 @@ public class Database {
     }
 
     public void write(String sql) throws SQLException {
-        try {
-            statement = connection.createStatement();
-            if(statement.execute(sql)) {
-                System.out.println("Gravado");
-            }
+        try(Statement statement = connection.createStatement()) {
+            statement.execute(sql);
         }
-        finally {
-            statement.close();
+        catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
     }
 
-    public void listdata() throws SQLException {
-        try {
-            statement = connection.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM ");
-            while(res.next()) {
-                String nome = res.getString("nome");
-                System.out.println(nome);
-            }
-        }
-        finally {
-            statement.close();
-        }
-    }
-    
     public ResultSet consulta(String query) throws SQLException {
         try {
             statement = connection.createStatement();
