@@ -106,9 +106,10 @@ public class Equipe {
     }
 
     public void dump_info() {
-//        for(var p : party) {
-//            System.out.printf("name=%s%nClasse=%s%nLevel=%d%nhealth=%d%nattack=%d%ndefense=%d%n%n",p.name, p.getClass().getName(), p.level, p.health, p.atk, p.def);
-//        }
+        for(var p : party) {
+            var pclass = p.player_class;
+            System.out.printf("name=%s%nClasse=%s%nLevel=%d%nhealth=%d%nattack=%d%ndefense=%d%n%n", p.name, pclass.getClass().getName(), p.level, pclass.health, pclass.atk, pclass.def);
+        }
     }
 
     public static Equipe random_team(int level_min, int level_max) throws SQLException {
