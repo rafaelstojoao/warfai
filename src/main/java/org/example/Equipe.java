@@ -1,6 +1,7 @@
 package org.example;
 
 
+import java.lang.annotation.Native;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -101,6 +102,7 @@ public class Equipe {
                 }
             });
         }
+        Main.db.write("UPDATE Batalhas SET id_equipe_vitoriosa = " + (active1.party.isEmpty() ? active2.id() : active1.id()) + " WHERE id = " + cod);
         System.out.println(active1.party.isEmpty() ?
                 "Equipe 2 Vitoriosa" : "Equipe 1 Vitoriosa");
     }

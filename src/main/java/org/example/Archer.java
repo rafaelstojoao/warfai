@@ -34,8 +34,8 @@ public class Archer extends PlayerClass {
     }
 
     @Override
-    public void attack(ArrayList<Player> rest, int selected_player) {
-        rest.get(selected_player).player_class.health -= atk;
+    public void attack(ArrayList<Player> party, int selected_player) {
+        party.get(selected_player).player_class.health -= atk;
     }
 
     @Override
